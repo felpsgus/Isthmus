@@ -1,13 +1,23 @@
 ﻿services:
+  sql-server:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      MSSQL_SA_PASSWORD: "Password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+
   isthmus.api:
-    image: isthmus.api
-    build:
-      context: .
-      dockerfile: Isthmus.Api/Dockerfile
+    image: felpsgus/isthmus.api
+    depends_on:
+      - sql-server
+    ports:
+      - "8080:8080"
+    command: >
+      sh -c "dotnet ef database update && 
+      dotnet Isthmus.Api.dll"
 
-  isthmus.api-1:
-    image: isthmus.api-1
-    build:
-      context: .
-      dockerfile: Isthmus.Api/Dockerfile
-
+volumes:
+  sql-data:

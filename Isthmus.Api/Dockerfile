@@ -19,5 +19,6 @@ RUN dotnet publish "./Isthmus.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:8080
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Isthmus.Api.dll"]

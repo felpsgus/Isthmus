@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace Isthmus.Api.Controllers;
 
-public class BaseController
+[ApiController]
+[Route("api/[controller]")]
+public class BaseController : ControllerBase
 {
-    
 }

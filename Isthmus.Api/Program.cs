@@ -1,22 +1,40 @@
+using Isthmus.Api;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(cors =>
+    {
+        cors.AllowAnyHeader();
+        cors.AllowAnyMethod();
+        cors.AllowAnyOrigin();
+    });
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddExceptionHandler<ExceptionHandler>();
+
+builder.Services.AddProblemDetails();
+
+builder.Services.ConfigureDependencyInjection(builder.Configuration);
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger(options => { options.RouteTemplate = "api/swagger/{documentName}/swagger.json"; });
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    options.RoutePrefix = "api/swagger";
+    options.SwaggerEndpoint("/api/swagger/v1/swagger.json", "Isthmus API");
+});
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 
