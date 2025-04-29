@@ -1,0 +1,13 @@
+﻿services:
+  isthmus.api:
+    image: isthmus.api
+    build:
+      context: .
+      dockerfile: Isthmus.Api/Dockerfile
+
+  isthmus.api-1:
+    image: isthmus.api-1
+    build:
+      context: .
+      dockerfile: Isthmus.Api/Dockerfile
+
