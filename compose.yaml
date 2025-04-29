@@ -15,9 +15,8 @@
       - sql-server
     ports:
       - "8080:8080"
-    command: >
-      sh -c "dotnet ef database update && 
-      dotnet Isthmus.Api.dll"
+    environment:
+      ENVIRONMENT_CONNECTION: "Server=sql-server;Database=Isthmus;User Id=sa;Password=Password123;TrustServerCertificate=True"
 
 volumes:
   sql-data:

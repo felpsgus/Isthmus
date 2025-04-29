@@ -26,8 +26,14 @@ public class ProductService : IProductService
             throw new ValidationException(validationResult.Errors);
         }
 
-        var product = Product.Create(model.Code, model.Name, model.Description, model.Price);
+        var product = await _productRepository.GetByCodeAsync(model.Code, cancellationToken);
+        if (product != null)
+        {
+            product.Update(model.Code, model.Name, model.Description, model.Price);
+            return await _productRepository.UpdateAsync(product, cancellationToken);
+        }
 
+        product = Product.Create(model.Code, model.Name, model.Description, model.Price);
         return await _productRepository.CreateAsync(product, cancellationToken);
     }
 

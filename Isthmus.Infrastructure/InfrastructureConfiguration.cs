@@ -20,8 +20,12 @@ public static class InfrastructureConfiguration
 
     private static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var environmentConnectionString = Environment.GetEnvironmentVariable("ENVIRONMENT_CONNECTION");
         services.AddDbContext<IsthmusDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(string.IsNullOrEmpty(environmentConnectionString)
+                ? connectionString
+                : environmentConnectionString));
     }
 
     private static void AddRepositories(this IServiceCollection services)
