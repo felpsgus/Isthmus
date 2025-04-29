@@ -5,7 +5,7 @@
 A estrutura do projeto é organizada em camadas, seguindo o padrão clean architecture. Limitei o acesso a dados através
 do padrão repository contribuindo para o desacoplamento em relação ao banco de dados. Implementei o padrão DDD (Domain
 Driven Design) para enriquecer minhas classes de domínio e garantir que a lógica de negócio esteja separada da
-infraestrutura. A estrutura do projeto é a seguinte:
+infraestrutura. Além disso, decidi usar uma classe de serviço para encapsular os casos de uso, levando em consideração o tamanho da aplicação e a complexidade do domínio. A estrutura do projeto é a seguinte:
 
 - **[`Isthmus.Api`](Isthmus.Api)**: Contém a API da aplicação, incluindo controladores e configuração do Swagger.
 - **[`Isthmus.Application`](Isthmus.Application)**: Contém a lógica de negócios da aplicação, incluindo serviços e
@@ -65,3 +65,9 @@ docker compose exec isthmus.api dotnet ef database update --project /src/Isthmus
 
 **Acesse a API**: Você pode acessar a API em
 `http://localhost:8080/api/swagger/index.html`.
+
+## Possíveis melhorias
+- Implementar testes unitários e de integração
+- Dependendo da necessidade do negócio, considerar a implementação do padrão Mediator para reduzir as dependências entre os serviços e melhorar a organização do código.
+- Abstrair algumas propriedades comuns entre os domínios em uma classe base, como `Ativo`, para evitar duplicação de código.
+- Implementar o padrão UnitOfWork para gerenciar transações de forma mais eficiente.
